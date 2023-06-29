@@ -1,30 +1,25 @@
 package dev.lpa;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
-public class Line extends GeometricalElement implements Mappable {
+abstract class Line implements Mappable {
 
-    private ArrayList<Location> locations;
+    private double[][] locations;
 
-    public Line(String name, String type) {
-        super(name, type);
-        locations = new ArrayList<>();
-    }
-
-    public void addLocation(Location location) {
-        if (location != null) this.locations.add(location);
+    public Line(String... locations) {
+        this.locations = new double[locations.length][];
+        int index = 0;
+        for (var l : locations) {
+            this.locations[index++] = Mappable.stringToLatLon(l);
+        }
     }
 
     @Override
-    public String print() {
-        String stringToPrint = super.getClass().getSuperclass().getSimpleName().toUpperCase() + " ([";
-        boolean firstLine = true;
-        for (Location location : locations) {
-            if (!firstLine) stringToPrint+= ", ";
-            else firstLine = false;
-            stringToPrint += "[" + location.getLatitude() + ", " + location.getLongitude() + "]";
-        }
-        stringToPrint += "])";
-        return stringToPrint;
+    public void render() {
+        System.out.println("Render " + this + " as LINE (" + locations() + ")");
+    }
+
+    private String locations() {
+        return Arrays.deepToString(locations);
     }
 }

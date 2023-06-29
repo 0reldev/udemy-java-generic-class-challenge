@@ -1,20 +1,21 @@
 package dev.lpa;
 
-public class Point extends GeometricalElement implements Mappable{
+import java.util.Arrays;
 
-    private Location location;
+abstract class Point implements Mappable {
 
-    public Point(String name, String type, Location location) {
-        super(name, type);
-        this.location = location;
-    }
+    private double[] location = new double[2];
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public Point(String location) {
+        this.location = Mappable.stringToLatLon(location);
     }
 
     @Override
-    public String print() {
-        return this.getClass().getSuperclass().getSimpleName().toUpperCase() + " ([" + location.getLatitude() + ", " + location.getLongitude() + "])";
+    public void render() {
+        System.out.println("Render " + this + " as POINT (" +  location() + ")");
+    }
+
+    private String location() {
+        return Arrays.toString(location);
     }
 }
